@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Autocomplete Example</title>
+    </head>
+    <body>
+        <style>
+            .genecalcframe {
+                background-color: white;
+                margin: 0 auto;
+                max-width: 900px;
+                border: 1px solid #d3d3d3;
+                border-radius: 0.25em;
+                padding: 1em;
+                display: grid;
+                grid-template-columns: 25% 25% 25% 25%;
+            }
+
+            .genecalcform > input {
+                border-radius: 0.25em;
+                border: 1px solid #d3d3d3;
+            }
+
+            .genecalcform.genecalcfemale {
+                grid-row: 1;
+                grid-column: span 2;
+            }
+
+            .genecalcform.genecalcmale {
+                grid-row: 1;
+                grid-column: span 2;
+            }
+
+            .genecalcremovebutton {
+                color: red;
+                margin: 0 0.5em;
+                cursor: pointer;
+            }
+
+            #genecalcCalculate {
+                grid-column: 2 / span 2;
+            }
+
+            #genecalcoutputtable {
+                grid-column: 1 / span 4;
+                text-transform: capitalize;
+            }
+        </style>
+        <div class="genecalcframe">
+            <div class="genecalcform genecalcfemale">
+                <div><label for="geneSearchFemale">Female</label></div>
+                <input list="geneList" id="geneSearchFemale" name="geneSearchFemale" autocomplete=false>
+
+                <ul id="selectedGenesFemale"></ul>
+            </div>
+            <div class="genecalcform genecalcmale">
+                <div><label for="geneSearchMale">Male</label></div>
+                <input list="geneList" id="geneSearchMale" name="geneSearchMale" autocomplete=false>
+
+                <ul id="selectedGenesMale"></ul>
+            </div>
+            <datalist id="geneList">
+                <option value="Super Pastel">
+                <option value="Pastel">
+                <option value="Super Black Pastel">
+                <option value="Black Pastel">    
+                <option value="Bamboo">
+                <option value="Calico">
+                <option value="Yellow Belly">
+                <option value="Enchi">
+                <option value="Super Enchi">
+                <option value="Piebald (visual)">
+                <option value="Albino (visual)">
+                <option value="Lavender Albino (visual)">                
+            </datalist>
+            <button id="genecalcCalculate">Calculate</button>
+            <table id="genecalcoutputtable"></table>
+        </div>
+        <script>
+            function getTraitsFromElement(el) {
+                var traits = [];
+
+                for (let i = 0; i < el.children.length; i++) {
+                    traits.push(el.children[i].children[0].innerText);
+                }
+
+                return traits;
+            }
+
+            function calculate(evt) {
+                const traitsMaleEl = document.getElementById('selectedGenesMale');
+                const traitsFemaleEl = document.getElementById('selectedGenesFemale');
+                const traitsTable = document.getElementById('genecalcoutputtable');
+                
+                const traitsMale = getTraitsFromElement(traitsMaleEl);
+                const traitsFemale = getTraitsFromElement(traitsFemaleEl);
+
+                const results = pair(
+                    { 'sex': 'female', traits: traitsFemale},
+                    { 'sex': 'male', traits: traitsMale}
+                );
+
+                while(traitsTable.firstChild) {
+                    traitsTable.removeChild(traitsTable.lastChild);
+                }
+
+                var h1 = document.createElement('td');
+                h1.innerHTML = "<b>Percentage</b>";
+
+                var h2 = document.createElement('td');
+                h2.innerHTML = "<b>Traits</b>";
+
+                traitsTable.appendChild(h1);
+                traitsTable.appendChild(h2);
+
+                Object.keys(results).forEach(result => {
+                    let newRow = document.createElement('tr');
+                    let newTraitEl = document.createElement('td');
+                    let newPercentEl = document.createElement('td');
+
+                    newTraitEl.innerHTML = result;
+                    newPercentEl.innerHTML = results[result].percent + '%';
+
+                    newRow.appendChild(newPercentEl);
+                    newRow.appendChild(newTraitEl);
+                    traitsTable.appendChild(newRow);
+                });
+
+            }
+
+            function removeTrait(evt) {
+                evt.target.parentElement.parentElement.removeChild(evt.target.parentElement);
+            }
+
+            function geneSearchChange(event, selectedGenesEl) {
+                const dataEl = event.srcElement.list;
+
+                for(var pick = dataEl.children.length-1; pick > -1; pick--) {
+                    if(dataEl.children[pick].value.toLowerCase() === event.srcElement.value.toLowerCase())
+                        break;
+                }
+
+                let selection = dataEl.children[pick].value;
+
+                event.srcElement.value = null;           
+
+                const currentGenes = [];
+
+                for(let i = 0; i < selectedGenesEl.children.length; i++) {
+                    currentGenes.push(selectedGenesEl.children[i].children[0].innerText.toLowerCase());
+                }
+
+                if(currentGenes.indexOf(selection.toLowerCase()) < 0) {
+                    let newEl = document.createElement('li');
+                    newEl.value = selection; 
+                    let childspan = document.createElement('span')
+                    childspan.innerHTML = selection;
+
+                    newEl.appendChild(childspan);
+
+                    let childbutton = document.createElement('span');
+                    childbutton.classList.add('genecalcremovebutton');
+                    childbutton.innerHTML = '(remove)';
+                    childbutton.addEventListener('click', removeTrait, true);
+                    newEl.appendChild(childbutton);
+
+                    selectedGenesEl.appendChild(newEl);
+                }
+            }
+            
+            function loadDataList() {
+                const allGenes = getRecessiveGenes().concat(getDominantGenes());
+                const dataEl = document.getElementById('geneList');
+
+                while(dataEl.firstChild) {
+                    dataEl.removeChild(dataEl.lastChild);
+                }
+                
+                allGenes.forEach(gene => {
+                    let newEl = document.createElement('option');
+                    newEl.innerText = gene;
+
+                    dataEl.appendChild(newEl);
+                });
+                
+            }
+
+            let geneSearchFemale = document.getElementById('geneSearchFemale');
+            let selectedGenesFemale = document.getElementById('selectedGenesFemale');
+            let geneListFemale = document.getElementById('geneListFemale');
+            geneSearchFemale.addEventListener('change', function(event) { geneSearchChange(event, selectedGenesFemale);});
+
+            let geneSearchMale = document.getElementById('geneSearchMale');
+            let selectedGenesMale = document.getElementById('selectedGenesMale');
+            let geneListMale = document.getElementById('geneListMale');
+            geneSearchMale.addEventListener('change', function(event) { geneSearchChange(event, selectedGenesMale);});
+
+            let calcButton = document.getElementById('genecalcCalculate');
+            calcButton.addEventListener('click', function (event) { calculate(event); });
+
+            window.addEventListener('load', loadDataList);
+        </script>
+    </body>
+    <script src="./gene-calc.js"></script>
+</html>
