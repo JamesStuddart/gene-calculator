@@ -9,11 +9,22 @@
                 background-color: white;
                 margin: 0 auto;
                 max-width: 900px;
+                width: 100%;
                 border: 1px solid #d3d3d3;
                 border-radius: 0.25em;
                 padding: 1em;
-                display: grid;
+                display: flex;
+                flex-flow: column wrap;
                 grid-template-columns: 25% 25% 25% 25%;
+            }
+
+            .genecalcframe > .parents {
+                display: flex;
+                flex-flow: row wrap;    
+            }
+
+            .genecalcframe > .parents > div:nth-child(2) {
+                margin-left: auto;
             }
 
             .genecalcform > input {
@@ -22,13 +33,9 @@
             }
 
             .genecalcform.genecalcfemale {
-                grid-row: 1;
-                grid-column: span 2;
             }
 
             .genecalcform.genecalcmale {
-                grid-row: 1;
-                grid-column: span 2;
             }
 
             .genecalcremovebutton {
@@ -38,26 +45,28 @@
             }
 
             #genecalcCalculate {
-                grid-column: 2 / span 2;
+                align-self: center;
             }
 
             #genecalcoutputtable {
-                grid-column: 1 / span 4;
+                align-self: stretch;
                 text-transform: capitalize;
             }
         </style>
         <div class="genecalcframe">
-            <div class="genecalcform genecalcfemale">
-                <div><label for="geneSearchFemale">Female</label></div>
-                <input list="geneList" id="geneSearchFemale" name="geneSearchFemale" autocomplete=false>
+            <div class="parents">
+                <div class="genecalcform genecalcfemale">
+                    <div><label for="geneSearchFemale">Female</label></div>
+                    <input list="geneList" id="geneSearchFemale" name="geneSearchFemale" autocomplete=false>
 
-                <ul id="selectedGenesFemale"></ul>
-            </div>
-            <div class="genecalcform genecalcmale">
-                <div><label for="geneSearchMale">Male</label></div>
-                <input list="geneList" id="geneSearchMale" name="geneSearchMale" autocomplete=false>
+                    <ul id="selectedGenesFemale"></ul>
+                </div>
+                <div class="genecalcform genecalcmale">
+                    <div><label for="geneSearchMale">Male</label></div>
+                    <input list="geneList" id="geneSearchMale" name="geneSearchMale" autocomplete=false>
 
-                <ul id="selectedGenesMale"></ul>
+                    <ul id="selectedGenesMale"></ul>
+                </div>
             </div>
             <datalist id="geneList">
                 <option value="Super Pastel">
