@@ -81,17 +81,17 @@ function traitCombinations(arr, supers=[], visuals=[]) {
 
 function pair(male, female) {
     var alltraits = male.traits.slice().concat(female.traits)
-                .filter(item => !(item.toLowerCase().startsWith('super ') || item.toLowerCase().endsWith('(visual)')))
+                .filter(item => !(item.toLowerCase().startsWith('super ') || recessiveGenes.includes(item.toLowerCase())))
                 .map(val => val.toLowerCase());
     var supers = male.traits.slice().concat(female.traits)
                 .filter(item => item.toLowerCase().startsWith('super ')).map(superstr => superstr.substring(6))
                 .map(val => val.toLowerCase());
     var visuals = male.traits.slice().concat(female.traits)
-                .filter(item => item.toLowerCase().endsWith(' (visual)')).map(visualstr => visualstr.substring(0, visualstr.length - 9))
+                .filter(item => recessiveGenes.includes(item.toLowerCase()))
                 .map(val => val.toLowerCase());
 
     var traitCombos = traitCombinations(alltraits, supers, visuals);
-                
+              
     if(supers.length || visuals.length) {
         traitCombos.push([supers, visuals].flat());
     }
