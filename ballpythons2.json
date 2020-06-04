@@ -1,0 +1,16 @@
+{
+    "genes": [
+            {
+                "type": "rec", 
+                "commonName": "Clown",
+                "Type": "Basic",
+                "Origin": "Unknown",
+                "Originator": "VPI",
+                "Description": "funny funny!",
+                "complex": "None",
+                "otherNames": [],
+                "als": ["Cryptic"],
+                "possibleSameGenes":  []
+            }
+        ]
+    }

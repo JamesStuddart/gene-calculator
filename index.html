@@ -90,6 +90,7 @@
             <table id="genecalcoutputtable"></table>
         </div>
         <script>
+
             function getTraitsFromElement(el) {
                 var traits = [];
 
@@ -181,7 +182,10 @@
                 }
             }
             
-            function loadDataList() {
+            async function loadDataList() {
+
+                await processData();
+
                 const allGenes = getRecessiveGenes().concat(getDominantGenes());
                 const dataEl = document.getElementById('geneList');
 

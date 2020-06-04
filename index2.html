@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ball Pythons Genetics</title>
+    </head>
+    <body>
+        <style>
+            .genecalcframe {
+                background-color: white;
+                margin: 0 auto;
+                max-width: 900px;
+                width: 100%;
+                border: 1px solid #d3d3d3;
+                border-radius: 0.25em;
+                padding: 1em;
+                display: flex;
+                flex-flow: column wrap;
+                grid-template-columns: 25% 25% 25% 25%;
+            }
+
+            .genecalcframe > .parents {
+                display: flex;
+                flex-flow: row wrap;    
+            }
+
+            .genecalcframe > .parents > div:nth-child(2) {
+                margin-left: auto;
+            }
+
+            .genecalcform > input {
+                border-radius: 0.25em;
+                border: 1px solid #d3d3d3;
+            }
+            .genecalcremovebutton {
+                color: red;
+                margin: 0 0.5em;
+                cursor: pointer;
+                font-size: 0.75em;
+            }
+
+            #genecalcCalculate {
+                align-self: center;
+            }
+
+            #genecalcoutputtable {
+                align-self: stretch;
+                text-transform: capitalize;
+            }
+        </style>
+        <h1>Gene Calculator (<em>self-contained</em>)</h1>	
+        <div id="container"></div>
+
+        <script>
+            async function loadDataList() {
+                var element = document.getElementById('container');
+                await initialize(element, './ballpythons.json');
+                // await initialize(element, './ballpythons2.json');
+            }
+
+            window.addEventListener('load', loadDataList);
+        </script>
+    </body>
+    <script src="./genetic-processor.js"></script>
+</html>

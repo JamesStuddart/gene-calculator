@@ -1,0 +1,52 @@
+{
+    "genes": [
+            {
+                "type": "codom", 
+                "commonName": "Mojave",
+                "Type": "Basic",
+                "Origin": "Wild",
+                "Originator": "Unknown",
+                "Description": "bit like normal, but better",
+                "complex": "Blue Eyed Leucistic ",
+                "otherNames": ["Mojo"],
+                "als": ["Lesser", "Butter", "Phantom", "Russo"],
+                "possibleSameGenes":  []
+            },
+            {
+                "type": "codom", 
+                "commonName": "Fire",
+                "Type": "Basic",
+                "Origin": "Unknown",
+                "Originator": "Unknown",
+                "Description": "it burns, burns, burns",
+                "complex": "Fire (Similar to Black Eyed Leucistic)",
+                "otherNames": ["Inferno", "Lucifer", "Sulphur", "Lemonback"],
+                "als": ["Disco", "Vanilla"],
+                "possibleSameGenes":  []
+            },
+            {
+                "type": "dom", 
+                "commonName": "Leopard",
+                "Type": "Basic",
+                "Origin": "Unknown",
+                "Originator": "Unknown",
+                "Description": "it burns, burns, burns",
+                "complex": "None",
+                "otherNames": [],
+                "als": [],
+                "possibleSameGenes":  []
+            },
+            {
+                "type": "rec", 
+                "commonName": "Clown",
+                "Type": "Basic",
+                "Origin": "Unknown",
+                "Originator": "VPI",
+                "Description": "funny funny!",
+                "complex": "None",
+                "otherNames": [],
+                "als": ["Cryptic"],
+                "possibleSameGenes":  []
+            }
+        ]
+    }

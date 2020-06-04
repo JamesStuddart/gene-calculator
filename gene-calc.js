@@ -1,5 +1,27 @@
 'use strict';
 
+  function mapGenes(masterGenes){
+      
+    var subsetGenes = []
+
+    masterGenes.forEach((gene) => {
+        subsetGenes.push({ id: gene.id + "-" + gene.commonName,
+                                                                parentId: null, 
+                                                                parentName: null, 
+                                                                name: gene.commonName
+                                                            });
+        gene.otherNames.forEach(item => subsetGenes.push({ id: gene.id + "-" + item,
+                                                                parentId: gene.id + "-" + gene.commonName, 
+                                                                parentName: gene.commonName, 
+                                                                name: item
+                                                            }));
+    });
+
+    return subsetGenes;
+}
+
+
+
 const dominantGenes = [
     "acid","adder","ahi","ajax","ambush","arcane","arroyo","asphalt","bald","bamboo",
     "banana","black","black head","black pastel","blade","bling yellow belly","blitz",
