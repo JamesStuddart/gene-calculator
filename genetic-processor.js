@@ -1,10 +1,12 @@
 'use strict';
 let container = null;
-let masterGenes;
+let masterGenes = [];
 let allGenes = [];
 let codominates = [];
 let dominates = [];
 let recessives = [];
+
+let selectedGenes = [];
 
 const initialize = async (element, url) => {
     await GetData(url);
@@ -25,6 +27,8 @@ const GetData = async (url) => {
         gene.id = index;
         index++;
     });
+
+    masterGenes = data.genes;
 
     codominates = await mapGenes(data.genes.filter(item => item.type.toLowerCase() === 'codom'));
     dominates = await mapGenes(data.genes.filter(item => item.type.toLowerCase() === 'dom'));
@@ -53,6 +57,8 @@ const BuildDropDowns = () => {
 
 const BuildDropDown = (id, label) => {
     let frag = document.createDocumentFragment();
+    
+    createSelectedGenesArray(id);
 
     let wrapper = document.createElement('div');
     wrapper.classList.add('genecalcform');
@@ -79,6 +85,19 @@ const BuildDropDown = (id, label) => {
   return frag;
 }
 
+const createSelectedGenesArray = (key) => {
+    selectedGenes.push({key: key, value: []});
+}
+
+const addSelectedGenesArray = (key, value) => {
+    let found = selectedGenes.find(x => x.key === key);
+
+    let id = value.id.split('-')[0];
+
+    let gene = masterGenes.find(x => x.id === parseInt(id));
+    found.value.push(gene);
+}
+
 const geneSearchChange = (event, selectedGenesEl) => {
     const dataEl = event.srcElement.list;
 
@@ -92,6 +111,8 @@ const geneSearchChange = (event, selectedGenesEl) => {
         text: dataEl.children[pick].value
     }
 
+    addSelectedGenesArray(event.target.id, selection);
+    
     event.srcElement.value = null;
 
     const currentGenes = [];

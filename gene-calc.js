@@ -98,6 +98,8 @@ function traitCombinations(arr, supers=[], visuals=[]) {
     }
   }
   f([], arr);
+
+  console.log(result);
   return result;
 }
 
@@ -105,6 +107,10 @@ function pair(male, female) {
     var alltraits = male.traits.slice().concat(female.traits)
                 .filter(item => !(item.toLowerCase().startsWith('super ') || recessiveGenes.includes(item.toLowerCase())))
                 .map(val => val.toLowerCase());
+
+                console.log("all traits:")
+console.log(alltraits);
+
     var supers = male.traits.slice().concat(female.traits)
                 .filter(item => item.toLowerCase().startsWith('super ')).map(superstr => superstr.substring(6))
                 .map(val => val.toLowerCase());

@@ -184,8 +184,6 @@
             
             async function loadDataList() {
 
-                await processData();
-
                 const allGenes = getRecessiveGenes().concat(getDominantGenes());
                 const dataEl = document.getElementById('geneList');
 
